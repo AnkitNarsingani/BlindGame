@@ -8,12 +8,12 @@ public class TouchReveal : MonoBehaviour
     public GameObject spriteMask;
     float timer;
 
-    void Start()
+    private void Start()
     {
         mainCamera = Camera.main;
     }
 
-    void Update()
+    private void Update()
     {
         timer += Time.deltaTime;
         if(timer > 0.03f)
