@@ -30,8 +30,27 @@ public class GirlMovement : MonoBehaviour
             {
                 target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
             }
+
             float step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, target, step);
-        }    
+        }
+
+        Touch touch = Input.GetTouch(0);
+        Vector3 start, end;
+        if(touch.phase == TouchPhase.Began)
+        {
+            start = mainCamera.ScreenToWorldPoint(touch.position);
+        }
+        if(touch.phase == TouchPhase.Ended)
+        {
+            end = mainCamera.ScreenToWorldPoint(touch.position);
+            transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
+        }
+
+        if(Input.GetMouseButtonUp(0))
+        {
+            end = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
+        }
     }
 }
