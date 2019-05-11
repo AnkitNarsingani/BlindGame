@@ -1,65 +1,75 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class AlarmClock : MonoBehaviour, IPointerDownHandler
+public class AlarmClock : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHandler
 {
-    Text time;
-    [SerializeField] private int startMinutes;
-    [SerializeField] private float speed = 0.05f;
-    private AudioSource[] alarmSound;
-    private int minutes;
-    private float timer;
-    bool canTime = false;
+    [SerializeField] private AudioClip alarmRing;
+    [SerializeField] private AudioClip alarmSnooze;
+    [Range(0.05f, 1)] [SerializeField] private float speed;
+    private Text minutes;
+    private Animator animator;
+    private AudioSource alarmSource;
+    private int alarmCounter = 0;
 
     void Start()
     {
-        time = GetComponentInChildren<Text>();
-        alarmSound = GetComponents<AudioSource>();
-        minutes = startMinutes;
-        alarmSound[0].Play();
+        minutes = transform.GetChild(1).GetComponentInChildren<Text>();
+        alarmSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
     }
 
-    void FixedUpdate()
+    public void StartAlarm()
     {
-        if(canTime)
+        if (alarmSource.isPlaying)
+            alarmSource.Stop();
+
+        alarmSource.clip = alarmRing;
+        alarmSource.Play();
+        alarmCounter++;
+    }
+
+    void StopAlarm()
+    {
+        alarmSource.Stop();
+        alarmSource.clip = alarmSnooze;
+        alarmSource.Play();
+    }
+
+    public void OnPointerDown(UnityEngine.EventSystems.PointerEventData data)
+    {
+        if(alarmSource.isPlaying && alarmSource.clip == alarmRing)
         {
-            if (minutes != 30)
-                ChangeTime();
+            StopAlarm();
+            StartCoroutine(FastForwardTime(15));
         }
     }
 
-    public void OnPointerDown(PointerEventData data)
+    private System.Collections.IEnumerator FastForwardTime(int amount)
     {
-        if(!canTime)
+        yield return new WaitForSeconds(1);
+        int currentTime = int.Parse(minutes.text);
+        float currentSpeed = speed;
+        while(amount > 0)
         {
-            alarmSound[0].Stop();
-            alarmSound[1].Play();
-            canTime = true;
-        }
-    }
-
-    void ChangeTime()
-    {
-        if (timer > speed)
-        {
-            if(minutes != startMinutes + 15)
-            {
-                minutes += 1;
-                time.text = "07 : " + minutes.ToString();
-                timer = 0;
-            }
+            currentTime++;
+            if(currentTime < 10)
+                minutes.text = "0" + currentTime.ToString();
             else
-            {
-                canTime = false;
-                startMinutes += 15;
-                alarmSound[0].Play();
-                return;
-            }
+                minutes.text = currentTime.ToString();
+            yield return new WaitForSeconds(currentSpeed);
+            if(alarmCounter != 2)
+                currentSpeed -= 0.03f;
+            amount--;
         }
-
-        timer += Time.deltaTime;
+        if (alarmCounter != 2)
+        {
+            StartAlarm();
+            speed -= 0.3f;
+        }  
+        else
+        {
+            animator.SetBool("CanGoUp", true);
+        }
+            
     }
 }

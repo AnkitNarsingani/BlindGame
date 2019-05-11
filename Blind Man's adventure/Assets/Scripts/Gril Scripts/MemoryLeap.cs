@@ -16,7 +16,7 @@ public class MemoryLeap : MonoBehaviour
 
     private void Update()
     {
-        if(!EventSystem.current.IsPointerOverGameObject())
+        if(!IsPointerOverUI())
         {
             timer += Time.deltaTime;
             if (timer > 0.03f)
@@ -36,6 +36,18 @@ public class MemoryLeap : MonoBehaviour
                 timer = 0;
             }
         }
+    }
+
+    bool IsPointerOverUI()
+    {
+        foreach (Touch t in Input.touches)
+        {
+            if (EventSystem.current.IsPointerOverGameObject(t.fingerId))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

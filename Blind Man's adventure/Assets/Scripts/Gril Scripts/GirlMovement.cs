@@ -19,7 +19,7 @@ public class GirlMovement : MonoBehaviour
 
     void Update()
     {
-        if(!EventSystem.current.IsPointerOverGameObject())
+        if(!IsPointerOverUI())
         {
             if (Input.touchCount > 0)
             {
@@ -34,17 +34,20 @@ public class GirlMovement : MonoBehaviour
             float step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, target, step);
         }
-
-        Touch touch = Input.GetTouch(0);
         Vector3 start, end;
-        if(touch.phase == TouchPhase.Began)
+
+        if(Input.touchCount > 0)
         {
-            start = mainCamera.ScreenToWorldPoint(touch.position);
-        }
-        if(touch.phase == TouchPhase.Ended)
-        {
-            end = mainCamera.ScreenToWorldPoint(touch.position);
-            transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                start = mainCamera.ScreenToWorldPoint(touch.position);
+            }
+            if (touch.phase == TouchPhase.Ended)
+            {
+                end = mainCamera.ScreenToWorldPoint(touch.position);
+                transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
+            }
         }
 
         if(Input.GetMouseButtonUp(0))
@@ -52,5 +55,17 @@ public class GirlMovement : MonoBehaviour
             end = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
         }
+    }
+
+    bool IsPointerOverUI()
+    {
+        foreach(Touch t in Input.touches)
+        {
+            if(EventSystem.current.IsPointerOverGameObject(t.fingerId))
+            {
+                return true;
+            } 
+        }
+        return false;
     }
 }
