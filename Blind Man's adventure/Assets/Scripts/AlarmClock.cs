@@ -10,6 +10,7 @@ public class AlarmClock : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHa
     private Animator animator;
     private AudioSource alarmSource;
     private int alarmCounter = 0;
+    [SerializeField] UnityEngine.Events.UnityEvent momCallEvent;
 
     void Start()
     {
