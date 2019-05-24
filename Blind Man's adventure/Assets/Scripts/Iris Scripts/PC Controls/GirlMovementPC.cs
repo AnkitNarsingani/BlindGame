@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GirlMovement : MonoBehaviour
+public class GirlMovementPC : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
     bool isFlipped = false;
@@ -40,7 +40,6 @@ public class GirlMovement : MonoBehaviour
             {
                 transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
                 anim.SetBool("isWalking", true);
-                
             }
             else
             {
@@ -52,9 +51,9 @@ public class GirlMovement : MonoBehaviour
 
     private void Move()
     {
-        if (Input.touchCount > 0)
+        if (Input.GetMouseButton(0))
         {
-            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position).x, transform.position.y, transform.position.z);
+            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
             OnTargetSet();
         }
     }
@@ -85,12 +84,10 @@ public class GirlMovement : MonoBehaviour
 
     bool IsPointerOverUI()
     {
-        foreach (Touch t in Input.touches)
+
+        if (EventSystem.current.IsPointerOverGameObject())
         {
-            if (EventSystem.current.IsPointerOverGameObject(t.fingerId))
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }

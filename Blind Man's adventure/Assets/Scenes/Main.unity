@@ -248,6 +248,8 @@ GameObject:
   - component: {fileID: 202304294}
   - component: {fileID: 202304295}
   - component: {fileID: 202304296}
+  - component: {fileID: 202304298}
+  - component: {fileID: 202304299}
   m_Layer: 0
   m_Name: Girl
   m_TagString: Untagged
@@ -289,12 +291,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 67e4acaafc70db7488ad709b1003c067, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 171879e8019ce2c4a9042b472eff42d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 7.6, y: 7.5}
+  m_Size: {x: 2.56, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -307,7 +309,7 @@ Transform:
   m_GameObject: {fileID: 202304291}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.35, y: -1.23, z: 0.004}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 675586126}
   - {fileID: 475847733}
@@ -326,13 +328,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  usingPCControls: 1
 --- !u!114 &202304295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 202304291}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4745f1d7f21eae74986070b0d08e6879, type: 3}
   m_Name: 
@@ -367,6 +370,30 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &202304298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 202304291}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4c4f124d787d540987660005298c1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+--- !u!114 &202304299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 202304291}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4199c18c4a8030348a06ad67bb8c525c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMask: {fileID: 1530398927472104, guid: daa791b3eccdb7645974cca2306e79d5, type: 2}
 --- !u!1 &475847732
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,8 +760,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1241758213}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: 0.069, z: 10}
-  m_LocalScale: {x: 2.7946043, y: 1.6748645, z: 1.6748645}
+  m_LocalPosition: {x: 10.71, y: -0.12, z: 10}
+  m_LocalScale: {x: 5.4689074, y: 1.6123083, z: 1.6748645}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -1091,7 +1118,7 @@ SpriteRenderer:
   m_Size: {x: 23.62, y: 23.62}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 2
 --- !u!4 &2094659858
 Transform:

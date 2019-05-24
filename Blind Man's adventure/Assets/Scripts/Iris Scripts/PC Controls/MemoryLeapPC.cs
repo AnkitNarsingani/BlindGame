@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MemoryLeap : MonoBehaviour
+public class MemoryLeapPC : MonoBehaviour
 {
     Camera mainCamera;
     public GameObject spriteMask;
@@ -27,14 +27,16 @@ public class MemoryLeap : MonoBehaviour
 
     private void Update()
     {
-        if(!IsPointerOverUI())
+        if (!IsPointerOverUI())
         {
             timer += Time.deltaTime;
             if (timer > 0.03f)
             {
-                if (Input.touchCount > 0)
+                if (Input.GetMouseButton(0))
                 {
-                    Instantiate(spriteMask, mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position), Quaternion.identity);
+                    Vector3 spawnPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                    spawnPosition.z = 10;
+                    Instantiate(spriteMask, spawnPosition, Quaternion.identity);
                 }
                 timer = 0;
             }
@@ -43,17 +45,15 @@ public class MemoryLeap : MonoBehaviour
 
     private void Reset()
     {
-        
+
     }
 
     bool IsPointerOverUI()
     {
-        foreach (Touch t in Input.touches)
+
+        if (EventSystem.current.IsPointerOverGameObject())
         {
-            if (EventSystem.current.IsPointerOverGameObject(t.fingerId))
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }

@@ -5,39 +5,54 @@ using UnityEngine;
 public class GirlControl : MonoBehaviour
 {
     [SerializeField] GirlStates currentState;
+    [SerializeField] private bool usingPCControls;
     private MemoryLeap memoryLeap;
     private GirlMovement movement;
     public delegate void StateChangeAction();
     public static event StateChangeAction OnStateChanged;
 
-	void Start ()
+    void Start()
     {
         memoryLeap = GetComponent<MemoryLeap>();
         movement = GetComponent<GirlMovement>();
         currentState = GirlStates.Move;
+        ChangeScripts(true);
     }
-	
 
-	void Update ()
+
+    void Update()
     {
 
-	}
+    }
 
     public void ChangeStates()
     {
         OnStateChanged.Invoke();
-        switch(currentState)
+
+        switch (currentState)
         {
             case GirlStates.Move:
                 currentState = GirlStates.MemoryLeap;
-                memoryLeap.enabled = true;
-                movement.enabled = false;
+                ChangeScripts(true);
                 break;
             case GirlStates.MemoryLeap:
                 currentState = GirlStates.Move;
-                memoryLeap.enabled = false;
-                movement.enabled = true;
+                ChangeScripts(false);
                 break;
+        }
+    }
+
+    void ChangeScripts(bool moveScript)
+    {
+        if (usingPCControls)
+        {
+            GetComponent<MemoryLeapPC>().enabled = !moveScript;
+            GetComponent<GirlMovementPC>().enabled = moveScript;
+        }
+        else
+        {
+            memoryLeap.enabled = !moveScript;
+            movement.enabled = moveScript;
         }
     }
 }
