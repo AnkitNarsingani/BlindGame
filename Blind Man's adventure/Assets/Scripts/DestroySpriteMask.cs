@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroySpriteMask : MonoBehaviour
 {
-    Vector3 minSize;
+    [HideInInspector] public Vector3 minSize;
 
     void Start()
     {

@@ -21,26 +21,12 @@ public class GirlControlPC : MonoBehaviour
 
     void Update ()
     {
-        //if (Input.GetMouseButton(0))
-        //{
-        //    target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
-        //}
-
-        //float step = speed * Time.deltaTime;
-        //transform.position = Vector3.MoveTowards(transform.position, target, step);
-
-        
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
-            start = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
-            lineRenderer.SetPosition(0, start);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            end = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
-            lineRenderer.SetPosition(1, end);
+            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
+        float step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, target, step);
     }
 }

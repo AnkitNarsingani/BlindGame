@@ -7,65 +7,81 @@ public class GirlMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
     private Camera mainCamera;
+    private Animator anim;
 
     Vector3 target;
 
+    private void OnEnable()
+    {
+        GirlControl.OnStateChanged += Reset;
+    }
+
+    private void OnDisable()
+    {
+        GirlControl.OnStateChanged -= Reset;
+    }
+
     void Start()
     {
+        anim = GetComponent<Animator>();
         mainCamera = Camera.main;
         target = transform.position;
-
     }
 
     void Update()
     {
-        if(!IsPointerOverUI())
+        if (!IsPointerOverUI())
         {
-            if (Input.touchCount > 0)
-            {
-                target = new Vector3(mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position).x, transform.position.y, transform.position.z);
-            }
+            Move();
 
-            if (Input.GetMouseButton(0))
+            if (Vector3.Distance(transform.position, target) > 0)
             {
-                target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
+                transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+                anim.SetBool("isWalking", true);
+                
             }
-
-            float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, target, step);
-        }
-        Vector3 start, end;
-
-        if(Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
+            else
             {
-                start = mainCamera.ScreenToWorldPoint(touch.position);
-            }
-            if (touch.phase == TouchPhase.Ended)
-            {
-                end = mainCamera.ScreenToWorldPoint(touch.position);
-                transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
+                GetComponent<SpriteRenderer>().flipX = false;
+                anim.SetBool("isWalking", false);
             }
         }
+    }
 
-        if(Input.GetMouseButtonUp(0))
+    private void Move()
+    {
+
+        if (Input.touchCount > 0)
         {
-            end = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
+            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position).x, transform.position.y, transform.position.z);
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
+        }
+
+        if (target.x < transform.position.x)
+            GetComponent<SpriteRenderer>().flipX = true;
+    }
+
+    private void Reset()
+    {
+        target = transform.position;
+        anim.SetBool("isWalking", false);
     }
 
     bool IsPointerOverUI()
     {
-        foreach(Touch t in Input.touches)
+        foreach (Touch t in Input.touches)
         {
-            if(EventSystem.current.IsPointerOverGameObject(t.fingerId))
+            if (EventSystem.current.IsPointerOverGameObject(t.fingerId))
             {
                 return true;
-            } 
+            }
         }
         return false;
     }
+
+
 }

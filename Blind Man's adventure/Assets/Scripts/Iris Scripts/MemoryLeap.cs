@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,16 @@ public class MemoryLeap : MonoBehaviour
     Camera mainCamera;
     public GameObject spriteMask;
     float timer;
+
+    private void OnEnable()
+    {
+        GirlControl.OnStateChanged += Reset;
+    }
+
+    private void OnDisable()
+    {
+        GirlControl.OnStateChanged -= Reset;
+    }
 
     private void Start()
     {
@@ -36,6 +47,11 @@ public class MemoryLeap : MonoBehaviour
                 timer = 0;
             }
         }
+    }
+
+    private void Reset()
+    {
+        
     }
 
     bool IsPointerOverUI()
