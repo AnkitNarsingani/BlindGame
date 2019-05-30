@@ -565,14 +565,14 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Blind Man's adventure
+  metroPackageName: Iris
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Blind Man's adventure
+  metroApplicationDescription: Iris
   wsaImages: {}
   metroTileShortName: 
   metroCommandLineArgsFile: 
@@ -643,7 +643,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: f82d579d-c1fb-4b6c-97bf-a702dfbed7c2
-  projectName: Blind Man's adventure
+  projectName: Iris
   organizationId: forgemediagames
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
