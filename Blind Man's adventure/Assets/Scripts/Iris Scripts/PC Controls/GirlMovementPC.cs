@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class GirlMovementPC : MonoBehaviour
@@ -32,6 +33,7 @@ public class GirlMovementPC : MonoBehaviour
 
     void Update()
     {
+
         if (!IsPointerOverUI())
         {
             Move();
@@ -84,11 +86,28 @@ public class GirlMovementPC : MonoBehaviour
 
     bool IsPointerOverUI()
     {
-
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(0))
         {
-            return true;
+            PointerEventData pointer = new PointerEventData(EventSystem.current);
+            pointer.position = Input.mousePosition;
+
+            List<RaycastResult> raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointer, raycastResults);
+
+            if (raycastResults.Count > 0)
+            {
+                foreach (var go in raycastResults)
+                {
+                    
+                    if (go.gameObject.layer != LayerMask.NameToLayer("UI Overlay"))
+                    {
+                        return true;
+                    }
+                        
+                }
+            }
         }
+
         return false;
     }
 }

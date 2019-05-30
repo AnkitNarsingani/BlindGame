@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class GirlMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
+    [SerializeField] private LayerMask nonInteractableLayer;
     bool isFlipped = false;
 
     private Camera mainCamera;
@@ -85,13 +87,24 @@ public class GirlMovement : MonoBehaviour
 
     bool IsPointerOverUI()
     {
-        foreach (Touch t in Input.touches)
+        if (Input.GetMouseButton(0))
         {
-            if (EventSystem.current.IsPointerOverGameObject(t.fingerId))
+            PointerEventData pointer = new PointerEventData(EventSystem.current);
+            pointer.position = Input.mousePosition;
+
+            List<RaycastResult> raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointer, raycastResults);
+
+            if (raycastResults.Count > 0)
             {
-                return true;
+                foreach (var go in raycastResults)
+                {
+                    if (go.gameObject.layer == nonInteractableLayer)
+                        return true;
+                }
             }
         }
+
         return false;
     }
 }

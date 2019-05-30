@@ -22,7 +22,7 @@ public class GirlControl : MonoBehaviour
 
     void Update()
     {
-
+        NoiseGen.Shake2D(1, 1, 1, 1, 1, 1, 1, 1);
     }
 
     public void ChangeStates()

@@ -5,22 +5,30 @@ public class AlarmClock : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHa
 {
     [SerializeField] private AudioClip alarmRing;
     [SerializeField] private AudioClip alarmSnooze;
-    [Range(0.05f, 1)] [SerializeField] private float speed;
+    [Range(0.05f, 1)] [SerializeField] private float fastForwardSpeed;
+    [Range(2, 5)] [SerializeField] private float animationSpeed;
+    [SerializeField] private float YPositionMaxClamp;
+    private float YPositionMinClamp;
     private Text minutes;
-    private Animator animator;
     private AudioSource alarmSource;
+    RectTransform rectTransform;
     private int alarmCounter = 0;
-    [SerializeField] UnityEngine.Events.UnityEvent momCallEvent;
+
+    [SerializeField] UnityEngine.Events.UnityEvent onAlarmSnoozed;
 
     void Start()
     {
         minutes = transform.GetChild(1).GetComponentInChildren<Text>();
         alarmSource = GetComponent<AudioSource>();
-        animator = GetComponent<Animator>();
+        rectTransform = GetComponent<RectTransform>();
+        YPositionMinClamp = rectTransform.anchoredPosition.y;
+        StartAlarm();
     }
 
     public void StartAlarm()
     {
+        StartCoroutine(GoingUpAnimation());
+
         if (alarmSource.isPlaying)
             alarmSource.Stop();
 
@@ -45,11 +53,20 @@ public class AlarmClock : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHa
         }
     }
 
+    private System.Collections.IEnumerator GoingUpAnimation()
+    {
+        while(rectTransform.anchoredPosition.y < YPositionMaxClamp)
+        {       
+            rectTransform.position += new Vector3(0, animationSpeed, 0);
+            yield return null;
+        }
+    }
+
     private System.Collections.IEnumerator FastForwardTime(int amount)
     {
         yield return new WaitForSeconds(1);
         int currentTime = int.Parse(minutes.text);
-        float currentSpeed = speed;
+        float currentSpeed = fastForwardSpeed;
         while(amount > 0)
         {
             currentTime++;
@@ -65,11 +82,17 @@ public class AlarmClock : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHa
         if (alarmCounter != 2)
         {
             StartAlarm();
-            speed -= 0.3f;
+            fastForwardSpeed -= 0.3f;
         }  
         else
         {
-            animator.SetBool("CanGoUp", true);
+            while(rectTransform.position.y > YPositionMinClamp)
+            {
+                rectTransform.position -= new Vector3(0, animationSpeed, 0);
+                yield return null;
+            }
+
+            onAlarmSnoozed.Invoke();
         }
             
     }
