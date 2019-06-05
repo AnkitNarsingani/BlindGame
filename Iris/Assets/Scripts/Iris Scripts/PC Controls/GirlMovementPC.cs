@@ -10,7 +10,7 @@ public class GirlMovementPC : MonoBehaviour
     private Camera mainCamera;
     private Animator anim;
     private SpriteRenderer spriteRenderer;
-
+    public bool TargetReached { get; private set; }
     Vector3 target;
 
     private void OnEnable()
@@ -33,7 +33,7 @@ public class GirlMovementPC : MonoBehaviour
 
     void Update()
     {
-
+        Debug.Log(TargetReached);
         if (!IsPointerOverUI())
         {
             Move();
@@ -55,19 +55,20 @@ public class GirlMovementPC : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
             OnTargetSet();
+            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
         }
     }
 
     private void OnTargetReached()
     {
-
+        TargetReached = true;
     }
 
     private void OnTargetSet()
     {
-        CheckSpriteFlip();
+        TargetReached = false;
+        CheckSpriteFlip();  
     }
 
     void CheckSpriteFlip()

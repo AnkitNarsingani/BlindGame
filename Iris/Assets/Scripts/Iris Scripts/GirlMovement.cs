@@ -8,6 +8,7 @@ public class GirlMovement : MonoBehaviour
     [SerializeField] private LayerMask nonInteractableLayer;
     bool isFlipped = false;
 
+    public bool TargetReached { get; private set; }
     private Camera mainCamera;
     private Animator anim;
     private SpriteRenderer spriteRenderer;
@@ -41,8 +42,7 @@ public class GirlMovement : MonoBehaviour
             if (Vector3.Distance(transform.position, target) > 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-                anim.SetBool("isWalking", true);
-                
+                anim.SetBool("isWalking", true);     
             }
             else
             {
@@ -54,20 +54,21 @@ public class GirlMovement : MonoBehaviour
 
     private void Move()
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position).x, transform.position.y, transform.position.z);
             OnTargetSet();
+            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position).x, transform.position.y, transform.position.z);     
         }
     }
 
     private void OnTargetReached()
     {
-
+        TargetReached = true;
     }
 
     private void OnTargetSet()
     {
+        TargetReached = false;
         CheckSpriteFlip();
     }
 

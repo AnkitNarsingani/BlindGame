@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 139270308}
   - component: {fileID: 139270307}
   - component: {fileID: 139270306}
+  - component: {fileID: 139270311}
   - component: {fileID: 139270310}
   m_Layer: 0
   m_Name: Main Camera
@@ -164,7 +165,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 51.4
   orthographic: 1
   orthographic size: 5
   m_Depth: -1
@@ -211,6 +212,18 @@ MonoBehaviour:
   offset: {x: 0.7, y: 1.17, z: -10}
   leftCameraBound: -5.54
   rightCameraBound: 5.54
+--- !u!114 &139270311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 139270305}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b45fa8b18ba63c4fb9711c2fca9210c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rink: {fileID: 258664579}
 --- !u!1001 &199131684
 Prefab:
   m_ObjectHideFlags: 0
@@ -248,7 +261,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4411381523813068, guid: 36237de1f4de488488d9fd65f09148e1, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114028624944085872, guid: 36237de1f4de488488d9fd65f09148e1,
         type: 2}
@@ -297,6 +310,10 @@ Prefab:
         type: 2}
       propertyPath: m_SortingOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271009031025706, guid: 36237de1f4de488488d9fd65f09148e1, type: 2}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36237de1f4de488488d9fd65f09148e1, type: 2}
@@ -536,7 +553,7 @@ RectTransform:
   - {fileID: 992902967}
   - {fileID: 1521703909}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -674,7 +691,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1080, y: 1920}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -713,7 +730,7 @@ RectTransform:
   m_Children:
   - {fileID: 1181624800}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -862,6 +879,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1501613523}
   - component: {fileID: 1501613522}
+  - component: {fileID: 1501613525}
+  - component: {fileID: 1501613524}
   m_Layer: 0
   m_Name: Violin
   m_TagString: Untagged
@@ -926,6 +945,43 @@ Transform:
   m_Father: {fileID: 1373192251}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1501613524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1501613521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458a11379de9dca4fa64605047a7a87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canCheckPlayerDistance: 0
+--- !u!61 &1501613525
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1501613521}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.07724351, y: 0.09594333}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.76, y: 3}
+    newSize: {x: 1.76, y: 3}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1964592, y: 2.2262628}
+  m_EdgeRadius: 0
 --- !u!1 &1521703908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,5 +1628,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

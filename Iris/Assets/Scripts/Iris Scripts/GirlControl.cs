@@ -5,7 +5,6 @@ using UnityEngine;
 public class GirlControl : MonoBehaviour
 {
     [SerializeField] GirlStates currentState;
-    [SerializeField] private bool usingPCControls;
     private MemoryLeap memoryLeap;
     private GirlMovement movement;
     public delegate void StateChangeAction();
@@ -22,7 +21,7 @@ public class GirlControl : MonoBehaviour
 
     void Update()
     {
-        NoiseGen.Shake2D(1, 1, 1, 1, 1, 1, 1, 1);
+
     }
 
     public void ChangeStates()
@@ -44,16 +43,13 @@ public class GirlControl : MonoBehaviour
 
     void ChangeScripts(bool moveScript)
     {
-        if (usingPCControls)
-        {
-            GetComponent<MemoryLeapPC>().enabled = !moveScript;
-            GetComponent<GirlMovementPC>().enabled = moveScript;
-        }
-        else
-        {
-            memoryLeap.enabled = !moveScript;
-            movement.enabled = moveScript;
-        }
+#if UNITY_EDITOR
+        GetComponent<MemoryLeapPC>().enabled = !moveScript;
+        GetComponent<GirlMovementPC>().enabled = moveScript;
+#elif UNITY_ANDROID
+        memoryLeap.enabled = !moveScript;
+        movement.enabled = moveScript;
+#endif
     }
 }
 

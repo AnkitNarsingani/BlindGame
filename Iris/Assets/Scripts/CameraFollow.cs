@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
 
     public float smoothSpeed = 0.125f;
     public Vector3 offset;
-    [SerializeField] private float leftCameraBound, rightCameraBound;
+    [SerializeField] public float leftCameraBound, rightCameraBound;
 
     void LateUpdate()
     {
