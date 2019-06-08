@@ -11,8 +11,8 @@ public class ViolinScript : InteractObject
         base.Update();
     }
 
-    protected override void PickUp()
+    protected override void OnTouched()
     {
-        base.PickUp();
+        base.OnTouched();
     }
 }

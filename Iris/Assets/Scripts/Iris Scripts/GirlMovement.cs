@@ -54,7 +54,7 @@ public class GirlMovement : MonoBehaviour
 
     private void Move()
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.touchCount > 0)
         {
             OnTargetSet();
             target = new Vector3(mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position).x, transform.position.y, transform.position.z);     

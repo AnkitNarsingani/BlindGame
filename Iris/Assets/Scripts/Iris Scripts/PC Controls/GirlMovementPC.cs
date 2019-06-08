@@ -33,7 +33,6 @@ public class GirlMovementPC : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(TargetReached);
         if (!IsPointerOverUI())
         {
             Move();

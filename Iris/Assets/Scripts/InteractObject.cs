@@ -6,18 +6,18 @@ public class InteractObject : MonoBehaviour
     protected delegate void OnInputAction();
     protected event OnInputAction OnTouchDown;
 
-    [SerializeField] private bool canCheckPlayerDistance;
+    private bool canCheckPlayerDistance;
 
     GameObject player;
 
     void OnEnable()
     {
-        OnTouchDown += PickUp;
+        OnTouchDown += OnTouched;
     }
 
     void OnDisable()
     {
-        OnTouchDown -= PickUp;
+        OnTouchDown -= OnTouched;
     }
 
     protected virtual void Start()
@@ -52,7 +52,7 @@ public class InteractObject : MonoBehaviour
 
     }
 
-    protected virtual void PickUp()
+    protected virtual void OnTouched()
     {
         Destroy(gameObject);
     }
