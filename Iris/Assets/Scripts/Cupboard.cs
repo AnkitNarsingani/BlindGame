@@ -45,5 +45,6 @@ public class Cupboard : InteractObject
             yield return null;
         }
         cupboardInteractableUI.SetActive(false);
+        enabled = false;
     }
 }
