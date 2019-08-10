@@ -2,27 +2,25 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GirlMovement : MonoBehaviour
+public class IrisMovementPC : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
-    [SerializeField] private LayerMask nonInteractableLayer;
     bool isFlipped = false;
 
-    public bool TargetReached { get; private set; }
     private Camera mainCamera;
     private Animator anim;
     private SpriteRenderer spriteRenderer;
-
+    public bool TargetReached { get; private set; }
     Vector3 target;
 
     private void OnEnable()
     {
-        GirlControl.OnStateChanged += Reset;
+        IrisControl.OnStateChanged += Reset;
     }
 
     private void OnDisable()
     {
-        GirlControl.OnStateChanged -= Reset;
+        IrisControl.OnStateChanged -= Reset;
     }
 
     void Start()
@@ -42,7 +40,7 @@ public class GirlMovement : MonoBehaviour
             if (Vector3.Distance(transform.position, target) > 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-                anim.SetBool("isWalking", true);     
+                anim.SetBool("isWalking", true);
             }
             else
             {
@@ -54,10 +52,10 @@ public class GirlMovement : MonoBehaviour
 
     private void Move()
     {
-        if (Input.touchCount > 0)
+        if (Input.GetMouseButton(0))
         {
             OnTargetSet();
-            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position).x, transform.position.y, transform.position.z);     
+            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
         }
     }
 
@@ -69,7 +67,7 @@ public class GirlMovement : MonoBehaviour
     private void OnTargetSet()
     {
         TargetReached = false;
-        CheckSpriteFlip();
+        CheckSpriteFlip();  
     }
 
     void CheckSpriteFlip()
@@ -100,8 +98,12 @@ public class GirlMovement : MonoBehaviour
             {
                 foreach (var go in raycastResults)
                 {
-                    if (go.gameObject.layer == nonInteractableLayer)
+                    
+                    if (go.gameObject.layer != LayerMask.NameToLayer("UI Overlay"))
+                    {
                         return true;
+                    }
+                        
                 }
             }
         }

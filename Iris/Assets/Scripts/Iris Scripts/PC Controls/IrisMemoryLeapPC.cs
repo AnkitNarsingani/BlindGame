@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MemoryLeapPC : MonoBehaviour
+public class IrisMemoryLeapPC : MonoBehaviour
 {
     Camera mainCamera;
     public GameObject spriteMask;
@@ -12,12 +12,12 @@ public class MemoryLeapPC : MonoBehaviour
 
     private void OnEnable()
     {
-        GirlControl.OnStateChanged += Reset;
+        IrisControl.OnStateChanged += Reset;
     }
 
     private void OnDisable()
     {
-        GirlControl.OnStateChanged -= Reset;
+        IrisControl.OnStateChanged -= Reset;
     }
 
     private void Start()

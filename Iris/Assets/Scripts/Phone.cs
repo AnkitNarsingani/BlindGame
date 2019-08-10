@@ -11,6 +11,8 @@ public class Phone : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHandler
     [SerializeField] private float YPositionMaxClamp;
     private float YPositionMinClamp;
 
+    [SerializeField] GameObject callUI;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -21,22 +23,25 @@ public class Phone : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHandler
 
     public void RecieveCall()
     {
-        StartCoroutine(GoingUpAnimation());
-        if (audioSource.isPlaying)
-            audioSource.Stop();
-
-        animator.SetBool("Vibrate", true);
-        audioSource.clip = vibrate;
-        audioSource.Play();
+        StartCoroutine(ShowCallUI());   
     }
 
-    private System.Collections.IEnumerator GoingUpAnimation()
+    private System.Collections.IEnumerator ShowCallUI()
     {
         while (rectTransform.anchoredPosition.y < YPositionMaxClamp)
         {
             rectTransform.position += new Vector3(0, animationSpeed, 0);
             yield return null;
         }
+        yield return new WaitForSeconds(1);
+        callUI.SetActive(true);
+
+        if (audioSource.isPlaying)
+            audioSource.Stop();
+
+        animator.SetBool("Vibrate", true);
+        audioSource.clip = vibrate;
+        audioSource.Play();
     }
 
     public void OnPointerDown(UnityEngine.EventSystems.PointerEventData data)
@@ -51,6 +56,17 @@ public class Phone : MonoBehaviour, UnityEngine.EventSystems.IPointerDownHandler
     {
         audioSource.Stop();
         animator.SetBool("Vibrate", false);
-
+        rectTransform.rotation = Quaternion.identity;
+        StartCoroutine("GoingDown");
     }
+
+    private System.Collections.IEnumerator GoingDown()
+    {
+        while (rectTransform.position.y > YPositionMinClamp)
+        {
+            rectTransform.position -= new Vector3(0, animationSpeed, 0);
+            yield return null;
+        }
+        GetComponentInParent<Canvas>().gameObject.SetActive(false);
+    }              
 }

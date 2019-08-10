@@ -36,13 +36,13 @@ public class InteractObject : MonoBehaviour
         if (canCheckPlayerDistance)
         {
 #if UNITY_EDITOR
-            if (player.GetComponent<GirlMovementPC>().TargetReached)
+            if (player.GetComponent<IrisMovementPC>().TargetReached)
             {
                 OnTouchDown.Invoke();
                 canCheckPlayerDistance = false;
             }
 #elif UNITY_ANDROID
-            if (player.GetComponent<GirlMovement>().TargetReached)
+            if (player.GetComponent<IrisMovement>().TargetReached)
             {
                 OnTouchDown.Invoke();
                 canCheckPlayerDistance = false;

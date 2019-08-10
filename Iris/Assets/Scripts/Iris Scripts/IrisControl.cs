@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GirlControl : MonoBehaviour
+public class IrisControl : MonoBehaviour
 {
-    [SerializeField] GirlStates currentState;
-    private MemoryLeap memoryLeap;
-    private GirlMovement movement;
+    [SerializeField] IrisStates currentState;
+    private IrisMemoryLeap memoryLeap;
+    private IrisMovement movement;
     public delegate void StateChangeAction();
     public static event StateChangeAction OnStateChanged;
 
     void Start()
     {
-        memoryLeap = GetComponent<MemoryLeap>();
-        movement = GetComponent<GirlMovement>();
-        currentState = GirlStates.Move;
+        memoryLeap = GetComponent<IrisMemoryLeap>();
+        movement = GetComponent<IrisMovement>();
+        currentState = IrisStates.Move;
         ChangeScripts(true);
     }
 
@@ -30,12 +30,12 @@ public class GirlControl : MonoBehaviour
 
         switch (currentState)
         {
-            case GirlStates.Move:
-                currentState = GirlStates.MemoryLeap;
+            case IrisStates.Move:
+                currentState = IrisStates.MemoryLeap;
                 ChangeScripts(true);
                 break;
-            case GirlStates.MemoryLeap:
-                currentState = GirlStates.Move;
+            case IrisStates.MemoryLeap:
+                currentState = IrisStates.Move;
                 ChangeScripts(false);
                 break;
         }
@@ -44,8 +44,8 @@ public class GirlControl : MonoBehaviour
     void ChangeScripts(bool moveScript)
     {
 #if UNITY_EDITOR
-        GetComponent<MemoryLeapPC>().enabled = !moveScript;
-        GetComponent<GirlMovementPC>().enabled = moveScript;
+        GetComponent<IrisMemoryLeapPC>().enabled = !moveScript;
+        GetComponent<IrisMovementPC>().enabled = moveScript;
 #elif UNITY_ANDROID
         memoryLeap.enabled = !moveScript;
         movement.enabled = moveScript;
@@ -53,7 +53,7 @@ public class GirlControl : MonoBehaviour
     }
 }
 
-public enum GirlStates
+public enum IrisStates
 {
     Move,
     MemoryLeap

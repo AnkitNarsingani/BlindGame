@@ -2,25 +2,27 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GirlMovementPC : MonoBehaviour
+public class IrisMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
+    [SerializeField] private LayerMask nonInteractableLayer;
     bool isFlipped = false;
 
+    public bool TargetReached { get; private set; }
     private Camera mainCamera;
     private Animator anim;
     private SpriteRenderer spriteRenderer;
-    public bool TargetReached { get; private set; }
+
     Vector3 target;
 
     private void OnEnable()
     {
-        GirlControl.OnStateChanged += Reset;
+        IrisControl.OnStateChanged += Reset;
     }
 
     private void OnDisable()
     {
-        GirlControl.OnStateChanged -= Reset;
+        IrisControl.OnStateChanged -= Reset;
     }
 
     void Start()
@@ -52,10 +54,16 @@ public class GirlMovementPC : MonoBehaviour
 
     private void Move()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.touchCount > 0)
         {
-            OnTargetSet();
-            target = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y, transform.position.z);
+            float touchPostion = mainCamera.ScreenToWorldPoint(Input.GetTouch(0).position).x;
+            float distance = Mathf.Abs(transform.position.x - touchPostion);
+            if (distance > 0.5f)
+            {
+                target.Set(touchPostion, transform.position.y, transform.position.z);
+                OnTargetSet();
+            }
+
         }
     }
 
@@ -67,7 +75,7 @@ public class GirlMovementPC : MonoBehaviour
     private void OnTargetSet()
     {
         TargetReached = false;
-        CheckSpriteFlip();  
+        CheckSpriteFlip();
     }
 
     void CheckSpriteFlip()
@@ -98,12 +106,8 @@ public class GirlMovementPC : MonoBehaviour
             {
                 foreach (var go in raycastResults)
                 {
-                    
-                    if (go.gameObject.layer != LayerMask.NameToLayer("UI Overlay"))
-                    {
+                    if (go.gameObject.layer == nonInteractableLayer)
                         return true;
-                    }
-                        
                 }
             }
         }
